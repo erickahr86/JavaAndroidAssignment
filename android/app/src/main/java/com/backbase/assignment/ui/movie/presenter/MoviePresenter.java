@@ -19,14 +19,24 @@ public class MoviePresenter implements MovieInteractor.OnFinishedListener
         this.movieInteractor = movieInteractor ;
     }
 
-    public void getPlayingNow()
+    public void getPlayingNow( Context context )
     {
         if ( movieView != null )
         {
             movieView.showProgress ();
         }
 
-        movieInteractor.GetPlayingNow ( this );
+        movieInteractor.GetPlayingNow ( context, this );
+    }
+
+    public void getPopular( Context context, int page_number )
+    {
+        if ( movieView != null )
+        {
+            movieView.showProgress ();
+        }
+
+        movieInteractor.GetPopular ( context, page_number, this );
     }
 
     @Override
@@ -40,12 +50,23 @@ public class MoviePresenter implements MovieInteractor.OnFinishedListener
     }
 
     @Override
-    public void onGetDataSuccess ( List<Result> results )
+    public void onGetPlayingNowSuccess (List<Result> results )
     {
         if (movieView != null)
         {
-            movieView.setResultsContent ( results );
+            movieView.setPlayingNowContent ( results );
             movieView.hideProgress();
         }
+    }
+
+    @Override
+    public void onGetPopularSuccess (List<Result> results)
+    {
+        if (movieView != null)
+        {
+            movieView.setPopularContent ( results );
+            movieView.hideProgress();
+        }
+
     }
 }

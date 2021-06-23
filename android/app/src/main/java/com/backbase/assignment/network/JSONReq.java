@@ -18,13 +18,4 @@ public class JSONReq extends JsonObjectRequest
 
 		setRetryPolicy( new DefaultRetryPolicy( 10000, 0, 0 ) );
 	}
-
-	@Override
-	public Map< String, String > getHeaders( )
-	{
-		Map< String, String > pms = new HashMap<>();
-		pms.put( "Accept-Encoding", "gzip,deflate"           );
-
-		return pms;
-	}
 }

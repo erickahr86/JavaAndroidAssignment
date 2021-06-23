@@ -1,83 +1,118 @@
 package com.backbase.assignment.entities;
 
+import android.annotation.SuppressLint;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+
 
 public class Result
 {
-    private boolean          adult;
-    private String           backdropPath;
-    private List<Long>       genreIDS;
-    private long             id;
-    private OriginalLanguage originalLanguage;
-    private String           originalTitle;
-    private String           overview;
-    private double           popularity;
-    private String           posterPath;
-    private LocalDate        releaseDate;
-    private String           title;
-    private boolean          video;
-    private double           voteAverage;
-    private long             voteCount;
+    private OriginalLanguage original_language;
 
-    public boolean getAdult ()
+    private final boolean    adult;
+    private final String     backdrop_path;
+    private final List<Long> genre_ids;
+    private final long       id;
+    private final String     original_title;
+    private final String     overview;
+    private final double     popularity;
+    private final String     poster_path;
+    private final LocalDate  release_date;
+    private final String     title;
+    private final boolean    video;
+    private final double     vote_average;
+    private final long       vote_count;
+
+    @SuppressLint ("NewApi")
+    public Result(JSONObject jsonObject )
+    {
+        String sDate = "";
+        String sLang = "";
+
+        this.genre_ids         = new ArrayList<> ();
+
+        this.adult           = jsonObject.optBoolean ("adult"          ) ;
+        this.backdrop_path   = jsonObject.optString  ("backdrop_path"  ) ;
+        this.id              = jsonObject.optLong    ("id"             ) ;
+        this.original_title  = jsonObject.optString  ("original_title" ) ;
+        this.overview        = jsonObject.optString  ("overview"       ) ;
+        this.popularity      = jsonObject.optDouble  ("popularity"     ) ;
+        this.poster_path     = jsonObject.optString  ("poster_path"    ) ;
+        this.title           = jsonObject.optString  ("title"          ) ;
+        this.video           = jsonObject.optBoolean ("video"          ) ;
+        this.vote_average    = jsonObject.optDouble  ("vote_average"   ) ;
+        this.vote_count      = jsonObject.optLong    ("vote_count"     ) ;
+
+        try
+        {
+            sDate = jsonObject.optString  ("release_date"     );
+            sLang = jsonObject.getString  ("original_language");
+
+            JSONArray jsGenres = jsonObject.getJSONArray ( "genre_ids" ) ;
+            for ( int i = 0; i < jsGenres.length (); i++ )
+            {
+                this.genre_ids.add ( jsGenres.getLong ( i ) );
+
+            }
+        }
+        catch ( JSONException e )
+        {
+            e.printStackTrace ();
+        }
+
+        try
+        {
+            this.original_language = OriginalLanguage.forValue ( sLang );
+        }
+        catch ( IOException e )
+        {
+            this.original_language = OriginalLanguage.EN;
+            e.printStackTrace ();
+        }
+
+        if ( sDate.equals ("") )
+        {
+            //Dummy for test
+            sDate = "2021-04-22";
+        }
+        this.release_date = LocalDate.parse ( sDate );
+    }
+
+    public boolean isAdult ()
     {
         return adult;
     }
 
-    public void setAdult (boolean value)
+    public String getBackdrop_path ()
     {
-        this.adult = value;
+        return backdrop_path;
     }
 
-    public String getBackdropPath ()
+    public List<Long> getGenre_ids ()
     {
-        return backdropPath;
+        return genre_ids;
     }
 
-    public void setBackdropPath (String value)
-    {
-        this.backdropPath = value;
-    }
-
-    public List<Long> getGenreIDS ()
-    {
-        return genreIDS;
-    }
-
-    public void setGenreIDS (List<Long> value)
-    {
-        this.genreIDS = value;
-    }
-
-    public long getID ()
+    public long getId ()
     {
         return id;
     }
 
-    public void setID (long value)
+    public OriginalLanguage getOriginal_language ()
     {
-        this.id = value;
+        return original_language;
     }
 
-    public OriginalLanguage getOriginalLanguage ()
+    public String getOriginal_title ()
     {
-        return originalLanguage;
-    }
-
-    public void setOriginalLanguage (OriginalLanguage value)
-    {
-        this.originalLanguage = value;
-    }
-
-    public String getOriginalTitle ()
-    {
-        return originalTitle;
-    }
-
-    public void setOriginalTitle (String value)
-    {
-        this.originalTitle = value;
+        return original_title;
     }
 
     public String getOverview ()
@@ -85,39 +120,19 @@ public class Result
         return overview;
     }
 
-    public void setOverview (String value)
-    {
-        this.overview = value;
-    }
-
     public double getPopularity ()
     {
         return popularity;
     }
 
-    public void setPopularity (double value)
+    public String getPoster_path ()
     {
-        this.popularity = value;
+        return poster_path;
     }
 
-    public String getPosterPath ()
+    public LocalDate getRelease_date ()
     {
-        return posterPath;
-    }
-
-    public void setPosterPath (String value)
-    {
-        this.posterPath = value;
-    }
-
-    public LocalDate getReleaseDate ()
-    {
-        return releaseDate;
-    }
-
-    public void setReleaseDate (LocalDate value)
-    {
-        this.releaseDate = value;
+        return release_date;
     }
 
     public String getTitle ()
@@ -125,38 +140,18 @@ public class Result
         return title;
     }
 
-    public void setTitle (String value)
-    {
-        this.title = value;
-    }
-
-    public boolean getVideo ()
+    public boolean isVideo ()
     {
         return video;
     }
 
-    public void setVideo (boolean value)
+    public double getVote_average ()
     {
-        this.video = value;
+        return vote_average;
     }
 
-    public double getVoteAverage ()
+    public long getVote_count ()
     {
-        return voteAverage;
-    }
-
-    public void setVoteAverage (double value)
-    {
-        this.voteAverage = value;
-    }
-
-    public long getVoteCount ()
-    {
-        return voteCount;
-    }
-
-    public void setVoteCount (long value)
-    {
-        this.voteCount = value;
+        return vote_count;
     }
 }

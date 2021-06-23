@@ -12,5 +12,7 @@ public interface MovieView
 
     void setError ( String error );
 
-    void setResultsContent ( List<Result> results );
+    void setPlayingNowContent (List<Result> results );
+
+    void setPopularContent (List<Result> results );
 }

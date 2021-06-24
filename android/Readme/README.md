@@ -14,7 +14,7 @@ In this application it mainly consists of two sections.
 
 ## Technologies and plugins
 **Programming language**
-	*The complete project is developed in Java.
+	* The complete project is developed in Java.
 	
 **Plugins and components**
 Common Google libraries are used, the most remarkable thing is that the lists are implemented with RecyclerView, to give it a modern and optimized interface.
@@ -35,7 +35,7 @@ In this project the component is inside the main project however, for a producti
 ## Screenshots UI/UX
 You can find some Screenshots in the folder where the present file is located.
 
-### Issues
+## Issues
 	* I have found that the JSON that TMDB responds in the requests provided for the assignment, for such a situation I have omitted to display that information.
 	* The colors of the interface may vary from the provided mockup, even when they were obtained using the tool: https://imagecolorpicker.com/
 	* I added a progressbar on top of the activity that is displayed discreetly when querying the API.

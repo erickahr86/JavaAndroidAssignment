@@ -6,22 +6,20 @@ In this application it mainly consists of two sections.
 	* Displays a horizontal list of movies currently playing
 2. **Popular Movies**
 	* Displays a vertical list of the most popular movies.
-
-**Higlights**
+3. **Higlights**
 	* In the list of popular movies, a paging mechanism is implemented that retrieves more movies as the user scrolls down, giving a very smooth effect, it is almost imperceptible to the user that data from the web is being consulted.
 	* In either of the two lists mentioned, you can tap to see the detail of the selected movie.
 	* The application only runs in portrait mode, it does not accept screen rotation
 
-## Technologies and plugins
-**Programming language**
-	* The complete project is developed in Java.
+##Programming language
+The complete project is developed in Java.
 	
-**Plugins and components**
+##Plugins and components
 Common Google libraries are used, the most remarkable thing is that the lists are implemented with RecyclerView, to give it a modern and optimized interface.
 The API consumption was implemented with the help of the Volley library
 I used the Picasso library to manage thumbnails and cache images, it is astonishing.
 
-**Complete list of libraries added manually**
+1. **Complete list of libraries added manually**
 	* androidx.coordinatorlayout: coordinatorlayout: 1.1.0
 	* com.google.android.material: material: 1.3.0
 	* com.android.volley: dc-volley: 1.1.0

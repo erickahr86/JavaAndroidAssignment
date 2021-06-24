@@ -4,5 +4,13 @@
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorSecondary">#767676</color>
     <color name="colorAccent">#FCD052</color>
-    <color name="colorText">#EAE9E7</color>
+    <color name="colorText">#FFFFFF</color>
+    <color name="colorText2">#B2FFFFFF</color>
+    <color name="translucentBlack">#E6000000</color>
+    <color name="light_blue_400">#FF29B6F6</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="gray_400">#FFBDBDBD</color>
+    <color name="gray_600">#FF757575</color>
+    <color name="cool_rate">#1fd07a</color>
+    <color name="poor_rate">#d1d530</color>
 </resources>

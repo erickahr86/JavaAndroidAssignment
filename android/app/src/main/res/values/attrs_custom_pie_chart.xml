@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="CustomPieChart">
+        <attr name="value_progress" format="integer" />
+    </declare-styleable>
+</resources>

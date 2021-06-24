@@ -2,6 +2,7 @@ package com.backbase.assignment.ui.movie.presenter;
 
 import android.content.Context;
 
+import com.backbase.assignment.entities.Movie;
 import com.backbase.assignment.entities.Result;
 import com.backbase.assignment.ui.movie.interactor.MovieInteractor;
 import com.backbase.assignment.ui.movie.view.MovieView;
@@ -39,6 +40,16 @@ public class MoviePresenter implements MovieInteractor.OnFinishedListener
         movieInteractor.GetPopular ( context, page_number, this );
     }
 
+    public void getMovie( Context context, long id )
+    {
+        if ( movieView != null )
+        {
+            movieView.showProgress ();
+        }
+
+        movieInteractor.GetMovie ( context, id, this );
+    }
+
     @Override
     public void onGetDataError (String error)
     {
@@ -65,6 +76,17 @@ public class MoviePresenter implements MovieInteractor.OnFinishedListener
         if (movieView != null)
         {
             movieView.setPopularContent ( results );
+            movieView.hideProgress();
+        }
+
+    }
+
+    @Override
+    public void onGetDetailSuccess (Movie movie)
+    {
+        if (movieView != null)
+        {
+            movieView.setDetailContent ( movie );
             movieView.hideProgress();
         }
 

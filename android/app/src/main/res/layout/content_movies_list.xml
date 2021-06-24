@@ -10,21 +10,25 @@
     tools:context=".ui.MainActivityMovies"
     tools:showIn="@layout/activity_main_movies">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ll_activity_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/cardview_default_elevation">
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/lpi_progress"
-            app:indicatorColor="@color/colorAccent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:indeterminate="true"
-            android:visibility="gone"/>
+            android:visibility="invisible"
+            app:indicatorColor="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_gap"
@@ -33,15 +37,19 @@
             android:textColor="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/lpi_progress" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_playing_now"
             android:layout_width="match_parent"
             android:layout_height="160dp"
-            android:layout_margin="@dimen/default_gap" />
+            android:layout_marginTop="@dimen/default_gap"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_gap"
@@ -50,15 +58,19 @@
             android:textColor="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/rv_playing_now" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_most_popular"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_gap" />
+            android:layout_marginTop="@dimen/default_gap"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView2"
+            tools:listitem="@layout/movie_item" />
 
-    </LinearLayout>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

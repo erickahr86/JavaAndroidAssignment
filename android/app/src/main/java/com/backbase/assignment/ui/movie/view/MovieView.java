@@ -1,5 +1,6 @@
 package com.backbase.assignment.ui.movie.view;
 
+import com.backbase.assignment.entities.Movie;
 import com.backbase.assignment.entities.Result;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface MovieView
     void setPlayingNowContent (List<Result> results );
 
     void setPopularContent (List<Result> results );
+
+    void setDetailContent (Movie movie );
 }

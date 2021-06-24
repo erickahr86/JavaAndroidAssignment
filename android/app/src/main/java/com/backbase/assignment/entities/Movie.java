@@ -1,62 +1,219 @@
 package com.backbase.assignment.entities;
 
+import android.annotation.SuppressLint;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class Movie
+import static com.backbase.assignment.globals.Constants.FORMATER_PATTERN;
+import static com.backbase.assignment.globals.Constants.PARSER_PATTERN;
+
+public class Movie implements Serializable
 {
-    private Dates        dates;
-    private long         page;
-    private List<Result> results;
-    private long         totalPages;
-    private long         totalResults;
+    private boolean                 adult;
+    private String                  backdropPath;
+    private Object                  belongsToCollection;
+    private long                    budget;
+    private final List<Genre>       genres;
+    private String                  homepage;
+    private long                    id;
+    private String                  imdbID;
+    private String                  originalLanguage;
+    private String                  originalTitle;
+    private final String            overview;
+    private double                  popularity;
+    private final String            posterPath;
+    private List<ProductionCompany> productionCompanies;
+    private List<ProductionCountry> productionCountries;
+    private Date                    releaseDate;
+    private long                    revenue;
+    private long                    runtime;
+    private List<SpokenLanguage>    spokenLanguages;
+    private String                  status;
+    private String                  tagline;
+    private final String            title;
+    private boolean                 video;
+    private double                  voteAverage;
+    private long                    voteCount;
 
-    public Dates getDates ()
+        public Movie (JSONObject jsMovie )
     {
-        return dates;
+        String sDate = "";
+        this.genres  = new ArrayList<> ();
+
+        this.title      = jsMovie.optString ("title"       );
+        this.overview   = jsMovie.optString ("overview"    );
+        this.posterPath = jsMovie.optString ("poster_path" );
+
+        try
+        {
+            sDate = jsMovie.optString  ("release_date" ) ;
+
+            JSONArray jsGenres = jsMovie.getJSONArray ( "genres" ) ;
+            for ( int i = 0; i < jsGenres.length (); i++ )
+            {
+                JSONObject jsGen = jsGenres.getJSONObject ( i );
+
+                Genre genre = new Genre();
+                genre.setID   ( jsGen.optInt    ("id") );
+                genre.setName ( jsGen.optString ("name") );
+
+                this.genres.add ( genre );
+            }
+        }
+        catch ( JSONException e )
+        {
+            e.printStackTrace ();
+        }
+
+        @SuppressLint ("SimpleDateFormat")
+        SimpleDateFormat parser = new SimpleDateFormat( PARSER_PATTERN );
+        try
+        {
+            this.releaseDate =   parser.parse(sDate);
+        }
+        catch ( ParseException e )
+        {
+            e.printStackTrace ();
+        }
     }
 
-    public void setDates (Dates value)
+    public boolean isAdult ()
     {
-        this.dates = value;
+        return adult;
     }
 
-    public long getPage ()
+    public String getBackdropPath ()
     {
-        return page;
+        return backdropPath;
     }
 
-    public void setPage (long value)
+    public Object getBelongsToCollection ()
     {
-        this.page = value;
+        return belongsToCollection;
     }
 
-    public List<Result> getResults ()
+    public long getBudget ()
     {
-        return results;
+        return budget;
     }
 
-    public void setResults (List<Result> value)
+    public List<Genre> getGenres ()
     {
-        this.results = value;
+        return genres;
     }
 
-    public long getTotalPages ()
+    public String getHomepage ()
     {
-        return totalPages;
+        return homepage;
     }
 
-    public void setTotalPages (long value)
+    public long getId ()
     {
-        this.totalPages = value;
+        return id;
     }
 
-    public long getTotalResults ()
+    public String getImdbID ()
     {
-        return totalResults;
+        return imdbID;
     }
 
-    public void setTotalResults (long value)
+    public String getOriginalLanguage ()
     {
-        this.totalResults = value;
+        return originalLanguage;
+    }
+
+    public String getOriginalTitle ()
+    {
+        return originalTitle;
+    }
+
+    public String getOverview ()
+    {
+        return overview;
+    }
+
+    public double getPopularity ()
+    {
+        return popularity;
+    }
+
+    public String getPosterPath ()
+    {
+        return posterPath;
+    }
+
+    public List<ProductionCompany> getProductionCompanies ()
+    {
+        return productionCompanies;
+    }
+
+    public List<ProductionCountry> getProductionCountries ()
+    {
+        return productionCountries;
+    }
+
+    public String getReleaseDate ()
+    {
+        if ( releaseDate == null )
+        {
+            return "";
+        }
+
+        SimpleDateFormat formatter = new SimpleDateFormat(FORMATER_PATTERN);
+        return formatter.format ( releaseDate );
+    }
+
+    public long getRevenue ()
+    {
+        return revenue;
+    }
+
+    public long getRuntime ()
+    {
+        return runtime;
+    }
+
+    public List<SpokenLanguage> getSpokenLanguages ()
+    {
+        return spokenLanguages;
+    }
+
+    public String getStatus ()
+    {
+        return status;
+    }
+
+    public String getTagline ()
+    {
+        return tagline;
+    }
+
+    public String getTitle ()
+    {
+        return title;
+    }
+
+    public boolean isVideo ()
+    {
+        return video;
+    }
+
+    public double getVoteAverage ()
+    {
+        return voteAverage;
+    }
+
+    public long getVoteCount ()
+    {
+        return voteCount;
     }
 }

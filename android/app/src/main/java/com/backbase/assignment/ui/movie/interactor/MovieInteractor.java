@@ -5,6 +5,7 @@ import android.content.Context;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.backbase.assignment.entities.Movie;
 import com.backbase.assignment.entities.Result;
 import com.backbase.assignment.network.JSONReq;
 import com.backbase.assignment.network.RequestManager;
@@ -45,88 +46,91 @@ public class MovieInteractor
         RequestManager.getInstance (context).queue ().add (jsonreq);
     }
 
+    public void GetMovie (Context context, long id, final OnFinishedListener listener )
+    {
+        String endpointString = baseUrl + "/movie/" + id + "?language=en-US&api_key=" + yourKey;
+
+        JSONReq jsonreq = new JSONReq (Request.Method.GET, endpointString, null,
+                getMovieSuccessful (listener), onError (listener)
+        );
+
+        jsonreq.setShouldCache (false);
+        RequestManager.getInstance (context).queue ().add (jsonreq);
+    }
+
     private Response.Listener<JSONObject> playingNowSuccessful( final OnFinishedListener listener )
     {
-        return new Response.Listener<JSONObject> ()
+        return response ->
         {
-            @Override
-            public void onResponse (JSONObject response)
+            List<Result> resultList = new ArrayList<> ();
+
+            try
             {
-                List<Result> resultList = new ArrayList<> ();
+                JSONArray jsResults = response.getJSONArray ("results");
 
-                try
+                for ( int i = 0; i < jsResults.length (); i++)
                 {
-                    JSONArray jsResults = response.getJSONArray ("results");
+                    Result result = new Result ( jsResults.getJSONObject ( i ) );
 
-                    for ( int i = 0; i < jsResults.length (); i++)
-                    {
-                        Result result = new Result ( jsResults.getJSONObject ( i ) );
-
-                        resultList.add ( result );
-                    }
+                    resultList.add ( result );
                 }
-                catch ( JSONException e )
-                {
-                    listener.onGetDataError ( e.getMessage () );
-                    e.printStackTrace ();
-                }
-
-
-                listener.onGetPlayingNowSuccess ( resultList );
             }
+            catch ( JSONException e )
+            {
+                listener.onGetDataError ( e.getMessage () );
+                e.printStackTrace ();
+            }
+
+
+            listener.onGetPlayingNowSuccess ( resultList );
         };
+    }
+
+    private Response.Listener<JSONObject> popularSuccessful( final OnFinishedListener listener )
+    {
+        return response ->
+        {
+            List<Result> resultList = new ArrayList<> ();
+
+            try
+            {
+                JSONArray jsResults = response.getJSONArray ("results");
+
+                for ( int i = 0; i < jsResults.length (); i++)
+                {
+                    Result result = new Result ( jsResults.getJSONObject ( i ) );
+
+                    resultList.add ( result );
+                }
+            }
+            catch ( JSONException e )
+            {
+                listener.onGetDataError ( e.getMessage () );
+                e.printStackTrace ();
+            }
+
+            listener.onGetPopularSuccess ( resultList );
+        };
+    }
+
+    private Response.Listener<JSONObject> getMovieSuccessful( final OnFinishedListener listener )
+    {
+        return response -> listener.onGetDetailSuccess( new Movie ( response ) );
     }
 
     private Response.ErrorListener onError (final OnFinishedListener listener )
     {
-        return new Response.ErrorListener ()
-        {
-            @Override
-            public void onErrorResponse (VolleyError error)
-            {
-                listener.onGetDataError ( error.getMessage () );
-            }
-        };
-    }
-
-
-    private Response.Listener<JSONObject> popularSuccessful( final OnFinishedListener listener )
-    {
-        return new Response.Listener<JSONObject> ()
-        {
-            @Override
-            public void onResponse (JSONObject response)
-            {
-                List<Result> resultList = new ArrayList<> ();
-
-                try
-                {
-                    JSONArray jsResults = response.getJSONArray ("results");
-
-                    for ( int i = 0; i < jsResults.length (); i++)
-                    {
-                        Result result = new Result ( jsResults.getJSONObject ( i ) );
-
-                        resultList.add ( result );
-                    }
-                }
-                catch ( JSONException e )
-                {
-                    listener.onGetDataError ( e.getMessage () );
-                    e.printStackTrace ();
-                }
-
-                listener.onGetPopularSuccess ( resultList );
-            }
-        };
+        return error -> listener.onGetDataError ( error.getMessage () );
     }
 
     public interface OnFinishedListener
     {
-        void onGetDataError (String error);
+        void onGetDataError         ( String error         );
 
-        void onGetPlayingNowSuccess (List<Result> results);
+        void onGetPlayingNowSuccess ( List<Result> results );
 
-        void onGetPopularSuccess (List<Result> results);
+        void onGetPopularSuccess    ( List<Result> results );
+
+        void onGetDetailSuccess     ( Movie movie          );
     }
 }

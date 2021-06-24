@@ -1,52 +1,59 @@
-package com.backbase.assignment.ui;
+package com.backbase.assignment.ui.movie.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.backbase.assignment.R;
 import com.backbase.assignment.entities.Result;
+import com.backbase.assignment.ui.movie.view.ItemClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import static com.backbase.assignment.globals.Constants.posterUrl;
 
-public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.PlayingNowViewHolder>
+public class PlayingNowAdapter extends RecyclerView.Adapter<PlayingNowAdapter.PlayingNowViewHolder>
 {
     private final List< Result > mItems  ;
+    private static ItemClickListener clickListener;
 
-    public PopularAdapter (List< Result > mItems )
+    public PlayingNowAdapter( List< Result > mItems )
     {
-        this.mItems  = mItems  ;
+        this.mItems = mItems  ;
     }
 
     @NonNull
     @Override
     public PlayingNowViewHolder onCreateViewHolder (@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_poster_item, parent, false);
 
         return new PlayingNowViewHolder( view );
     }
 
     @Override
-    public void onBindViewHolder (@NonNull PlayingNowViewHolder holder, int position)
+    public void onBindViewHolder (@NonNull PlayingNowViewHolder holder, final int position)
     {
         Result result = mItems.get ( position );
 
         Picasso.get().load( posterUrl + result.getPoster_path () )
                 .placeholder ( R.drawable.progress_animator )
-                .centerInside( ).fit (  )
+                .centerCrop  ( ).fit (  )
                 .into ( holder.ivPoster ) ;
 
-        holder.tvTitle.setText ( result.getTitle ()                    );
-        holder.tvDate .setText ( result.getRelease_date ().toString () );
+        holder.itemView.setOnClickListener (new View.OnClickListener ()
+        {
+            @Override
+            public void onClick (View v)
+            {
+                clickListener.onItemClick( mItems.get ( position ).getId () );
+            }
+        });
     }
 
     @Override
@@ -55,19 +62,20 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.PlayingN
         return mItems != null ? mItems.size () : 0;
     }
 
+    public void setClickListener( ItemClickListener itemClickListener )
+    {
+        clickListener = itemClickListener;
+    }
+
     public static class PlayingNowViewHolder extends RecyclerView.ViewHolder
     {
-        private final ImageView ivPoster ;
-        private final TextView  tvTitle  ;
-        private final TextView  tvDate   ;
+        private final ImageView ivPoster;
 
         public PlayingNowViewHolder (@NonNull View itemView)
         {
             super (itemView);
 
-            ivPoster = itemView.findViewById (R.id.poster      );
-            tvTitle  = itemView.findViewById (R.id.title       );
-            tvDate   = itemView.findViewById (R.id.releaseDate );
+            ivPoster = itemView.findViewById (R.id.iv_photo);
         }
     }
 }

@@ -1,15 +1,21 @@
 package com.backbase.assignment.entities;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import static com.backbase.assignment.globals.Constants.FORMATER_PATTERN;
+import static com.backbase.assignment.globals.Constants.PARSER_PATTERN;
 
 
 public class Result
@@ -24,7 +30,7 @@ public class Result
     private final String     overview;
     private final double     popularity;
     private final String     poster_path;
-    private final LocalDate  release_date;
+    private       Date       release_date;
     private final String     title;
     private final boolean    video;
     private final double     vote_average;
@@ -36,7 +42,7 @@ public class Result
         String sDate = "";
         String sLang = "";
 
-        this.genre_ids         = new ArrayList<> ();
+        this.genre_ids       = new ArrayList<> ();
 
         this.adult           = jsonObject.optBoolean ("adult"          ) ;
         this.backdrop_path   = jsonObject.optString  ("backdrop_path"  ) ;
@@ -77,12 +83,15 @@ public class Result
             e.printStackTrace ();
         }
 
-        if ( sDate.equals ("") )
+        SimpleDateFormat parser = new SimpleDateFormat( PARSER_PATTERN );
+        try
         {
-            //Dummy for test
-            sDate = "2021-04-22";
+            this.release_date = parser.parse( sDate );
         }
-        this.release_date = LocalDate.parse ( sDate );
+        catch ( ParseException e )
+        {
+            e.printStackTrace ();
+        }
     }
 
     public boolean isAdult ()
@@ -130,9 +139,16 @@ public class Result
         return poster_path;
     }
 
-    public LocalDate getRelease_date ()
+    public String getRelease_date ()
     {
-        return release_date;
+        if ( release_date == null )
+        {
+            return "";
+        }
+
+        @SuppressLint ("SimpleDateFormat")
+        SimpleDateFormat formatter = new SimpleDateFormat(FORMATER_PATTERN);
+        return formatter.format ( release_date );
     }
 
     public String getTitle ()
@@ -147,7 +163,7 @@ public class Result
 
     public double getVote_average ()
     {
-        return vote_average;
+        return vote_average * 10;
     }
 
     public long getVote_count ()

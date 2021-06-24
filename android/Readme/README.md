@@ -2,9 +2,9 @@
 I have developed an app that is responsible for interacting with the TMDB API.
 In this application it mainly consists of two sections.
 
-1. ** Now Playing. **
+1. **Now Playing.**
 	* Displays a horizontal list of movies currently playing
-2. ** Popular Movies **
+2. **Popular Movies**
 	* Displays a vertical list of the most popular movies.
 
 **Higlights**
@@ -21,7 +21,7 @@ Common Google libraries are used, the most remarkable thing is that the lists ar
 The API consumption was implemented with the help of the Volley library
 I used the Picasso library to manage thumbnails and cache images, it is astonishing.
 
-** Complete list of libraries added manually **
+**Complete list of libraries added manually**
 	* androidx.coordinatorlayout: coordinatorlayout: 1.1.0
 	* com.google.android.material: material: 1.3.0
 	* com.android.volley: dc-volley: 1.1.0

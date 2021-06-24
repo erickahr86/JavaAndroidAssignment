@@ -11,10 +11,10 @@ In this application it mainly consists of two sections.
 	* In either of the two lists mentioned, you can tap to see the detail of the selected movie.
 	* The application only runs in portrait mode, it does not accept screen rotation
 
-##Programming language
+## Programming language
 The complete project is developed in Java.
 	
-##Plugins and components
+##P lugins and components
 Common Google libraries are used, the most remarkable thing is that the lists are implemented with RecyclerView, to give it a modern and optimized interface.
 The API consumption was implemented with the help of the Volley library
 I used the Picasso library to manage thumbnails and cache images, it is astonishing.

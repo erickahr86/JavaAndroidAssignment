@@ -35,7 +35,7 @@ You can find some Screenshots in the folder where the present file is located.
 
 ## Issues
 
-1. **Issues founded
+1. **Issues founded**
 	* I have found that the JSON that TMDB responds in the requests provided for the assignment, for such a situation I have omitted to display that information.
 	* The colors of the interface may vary from the provided mockup, even when they were obtained using the tool: https://imagecolorpicker.com/
 	* I added a progressbar on top of the activity that is displayed discreetly when querying the API.
